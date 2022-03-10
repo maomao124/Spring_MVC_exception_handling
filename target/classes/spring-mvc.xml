@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--mvc的注解驱动-->
+    <mvc:annotation-driven conversion-service="conversionService"/>
+
+    <!--注册类型转换器conversionService -->
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+
+            </list>
+        </property>
+    </bean>
+
+
+    <!--开放资源的访问-->
+    <!--<mvc:resources mapping="/js/**" location="/js/"/>-->
+    <!--<mvc:resources mapping="/img/**" location="/img/"/>-->
+    <!--自动-->
+    <mvc:default-servlet-handler/>
+
+
+    <!--Controller的组件扫描-->
+    <context:component-scan base-package="mao.spring_mvc_exception_handling">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+
+    <!--配置内部资源视图解析器-->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+
+    <!--配置简单异常处理器-->
+    <!--<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
+    <!--    &lt;!&ndash;设置默认错误视图的名称。如果未找到特定映射，则将返回此视图&ndash;&gt;-->
+    <!--    <property name="defaultErrorView" value="error"/>-->
+    <!--    &lt;!&ndash;设置异常类名称和错误视图名称之间的映射&ndash;&gt;-->
+    <!--    <property name="exceptionMappings">-->
+    <!--        <map>-->
+    <!--            <entry key="java.lang.ClassCastException" value="error1"/>-->
+    <!--            <entry key="mao.spring_mvc_exception_handling.MyException" value="error2"/>-->
+    <!--        </map>-->
+    <!--    </property>-->
+    <!--</bean>-->
+
+
+    <!--自定义异常处理器-->
+    <!--实现HandlerExceptionResolver接口-->
+    <bean class="mao.spring_mvc_exception_handling.ExceptionResolver"/>
+
+</beans>
